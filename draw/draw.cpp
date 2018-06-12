@@ -18,6 +18,12 @@ bool up = true;
 
 HWND hwndButton;
 RECT drawArea = { 552, 2, 848, 601 };
+RECT drawArea1 = { 63, 499, 549, 599 };
+RECT drawArea2 = { 852, 379, 1339, 479 };
+RECT drawArea3 = { 63, 259, 549, 359 };
+RECT drawArea4 = { 852, 139, 1339, 239 };
+RECT drawArea5 = { 63, 19, 549, 119 };
+
 
 std::vector<int> vector1;
 std::vector<int> vector2;
@@ -55,6 +61,78 @@ void MyOnPaint(HDC hdc)
 	graphics.DrawLine(&lift, 840, 500, 840, 600);
 }
 
+void paintingThePeople(HWND hWnd, HDC &hdc, PAINTSTRUCT &ps, RECT *drawArealol, std::vector<int> vectorro)
+{
+	int space = 0;
+	InvalidateRect(hWnd, drawArealol, TRUE);
+	hdc = BeginPaint(hWnd, &ps);
+	Graphics graphics(hdc);
+	Image image1(L"ludzik1.bmp");
+	Image image2(L"ludzik2.bmp");
+	Image image3(L"ludzik3.bmp");
+	Image image4(L"ludzik4.bmp");
+	Image image5(L"ludzik5.bmp");
+	for (int i = 0; i < vectorro.size(); i++) {
+		if (vectorro[i] == 1) {
+			if (drawArealol->right < 700) {
+				graphics.DrawImage(&image1, (524 - space), (drawArealol->bottom - 54), 25, 54);
+				space += 25;
+			}
+			else {
+				graphics.DrawImage(&image1, (851 - space), (drawArealol->bottom - 54), 25, 54);
+				space -= 25;
+			}
+			if ((space == 500) || (space == -500)) space = 0;
+		}
+		else if (vectorro[i] == 2) {
+			if (drawArealol->right < 700) {
+				graphics.DrawImage(&image2, (524 - space), (drawArealol->bottom - 54), 25, 54);
+				space += 25;
+			}
+			else {
+				graphics.DrawImage(&image2, (851 - space), (drawArealol->bottom - 54), 25, 54);
+				space -= 25;
+			}
+			if ((space == 500) || (space == -500)) space = 0;
+		}
+		else if (vectorro[i] == 3) {
+			if (drawArealol->right < 700) {
+				graphics.DrawImage(&image3, (524 - space), (drawArealol->bottom - 54), 25, 54);
+				space += 25;
+			}
+			else {
+				graphics.DrawImage(&image3, (851 - space), (drawArealol->bottom - 54), 25, 54);
+				space -= 25;
+			}
+			if ((space == 500) || (space == -500)) space = 0;
+		}
+		else if (vectorro[i] == 4) {
+			if (drawArealol->right < 700) {
+				graphics.DrawImage(&image4, (524 - space), (drawArealol->bottom - 54), 25, 54);
+				space += 25;
+			}
+			else {
+				graphics.DrawImage(&image4, (851 - space), (drawArealol->bottom - 54), 25, 54);
+				space -= 25;
+			}
+			if ((space == 500) || (space == -500)) space = 0;
+		}
+		else {
+			if (drawArealol->right < 700) {
+				graphics.DrawImage(&image5, (524 - space), (drawArealol->bottom - 54), 25, 54);
+				space += 25;
+			}
+			else {
+				graphics.DrawImage(&image5, (851 - space), (drawArealol->bottom - 54), 25, 54);
+				space -= 25;
+			}
+			if ((space == 500) || (space == -500)) space = 0;
+		}
+	}
+	EndPaint(hWnd, &ps);
+	Sleep(50);
+}
+
 void poppingVector(std::vector<int> &current, int indeks)
 {
 	std::vector<int> temporary;
@@ -80,9 +158,15 @@ void poppingVector(std::vector<int> &current, int indeks)
 
 void repaintLift(HWND hWnd, HDC &hdc, PAINTSTRUCT &ps, RECT *drawArea)
 {
+	int space = 0;
 	InvalidateRect(hWnd, drawArea, TRUE);
 	hdc = BeginPaint(hWnd, &ps);
 	Graphics graphics(hdc);
+	Image image1(L"ludzik1.bmp");
+	Image image2(L"ludzik2.bmp");
+	Image image3(L"ludzik3.bmp");
+	Image image4(L"ludzik4.bmp");
+	Image image5(L"ludzik5.bmp");
 	switch (currentFloor)
 	{
 	case 1: {
@@ -342,6 +426,32 @@ void repaintLift(HWND hWnd, HDC &hdc, PAINTSTRUCT &ps, RECT *drawArea)
 	graphics.DrawLine(&lift, 560, (620 - (currentFloor * 120)), 840, (620 - (currentFloor * 120)));
 	graphics.DrawLine(&lift, 560, (620 - (currentFloor * 120)), 560, (720 - (currentFloor * 120)));
 	graphics.DrawLine(&lift, 840, (620 - (currentFloor * 120)), 840, (720 - (currentFloor * 120)));
+	for (int i = 0; i < liftingVector.size(); i++) {
+		switch (liftingVector[i]) {
+		case 1: {
+			graphics.DrawImage(&image1, (600 + space), (665 - (currentFloor * 120)), 25, 54);
+			break;
+		}
+		case 2: {
+			graphics.DrawImage(&image2, (600 + space), (665 - (currentFloor * 120)), 25, 54);
+			break;
+		}
+		case 3: {
+			graphics.DrawImage(&image3, (600 + space), (665 - (currentFloor * 120)), 25, 54);
+			break;
+		}
+		case 4: {
+			graphics.DrawImage(&image4, (600 + space), (665 - (currentFloor * 120)), 25, 54);
+			break;
+		}
+		case 5: {
+			graphics.DrawImage(&image5, (600 + space), (665 - (currentFloor * 120)), 25, 54);
+			break;
+		}
+		default: break;
+		}
+		space += 25;
+	}
 	if (!liftingVector.empty()) {
 		if (liftingVector[0] < currentFloor) up = false;
 		if (liftingVector[0] > currentFloor) up = true;
@@ -873,6 +983,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case TMR_1:
 			//force window to repaint
 			hdc = BeginPaint(hWnd, &ps);
+			paintingThePeople(hWnd, hdc, ps, &drawArea1, vector1);
+			paintingThePeople(hWnd, hdc, ps, &drawArea2, vector2);
+			paintingThePeople(hWnd, hdc, ps, &drawArea3, vector3);
+			paintingThePeople(hWnd, hdc, ps, &drawArea4, vector4);
+			paintingThePeople(hWnd, hdc, ps, &drawArea5, vector5);
 			repaintLift(hWnd, hdc, ps, &drawArea);
 			EndPaint(hWnd, &ps);
 			Sleep(200);
